@@ -17,30 +17,57 @@ if (command != "tokenize")
 }
 
 string fileContents = File.ReadAllText(filename);
+List<String> tokens = new List<String>();
 
 if (!string.IsNullOrEmpty(fileContents))
 {
-     foreach (char character in fileContents)
-     {
+    foreach (char character in fileContents)
+    {
         switch(character)
         {
             case '(':
-                Console.WriteLine("LEFT_PAREN ( null");
+                tokens.Add("LEFT_PAREN ( null");
                 break;
             case ')':
-                Console.WriteLine("RIGHT_PAREN )  null");
+                tokens.Add("RIGHT_PAREN ) null");
                 break;
             case '{':
-                Console.WriteLine("LEFT_BRACE { null");
+                tokens.Add("LEFT_BRACE { null");
                 break;
             case '}':
-                Console.WriteLine("RIGHT_BRACE } null");
+                tokens.Add("RIGHT_BRACE } null");
+                break;
+            case '*':
+                tokens.Add("STAR * null");
+                break;
+            case '.':
+                tokens.Add("DOT . null");
+                break;
+            case ',':
+                tokens.Add("COMMA , null");
+                break;
+            case '+':
+                tokens.Add("PLUS + null");
+                break;
+            case '-':
+                tokens.Add("MINUS - null");
+                break;
+            case ';':
+                tokens.Add("SEMICOLON ; null");
+                break;
+            case '/':
+                tokens.Add("SLASH / null");
                 break;
         }
      }
-     Console.WriteLine("EOF null");
+     tokens.Add("EOF null");
 }
 else
 {
-     Console.WriteLine("EOF  null"); // Placeholder, remove this line when implementing the scanner
+    tokens.Add("EOF  null"); // Placeholder, remove this line when implementing the scanner
+}
+
+foreach(String token in tokens)
+{
+    Console.WriteLine(token);
 }
