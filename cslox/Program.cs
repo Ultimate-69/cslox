@@ -18,11 +18,14 @@ if (command != "tokenize")
 
 string fileContents = File.ReadAllText(filename);
 List<String> tokens = new List<String>();
+int line = 1;
+bool lexicalError = false;
 
 if (!string.IsNullOrEmpty(fileContents))
 {
-    foreach (char character in fileContents)
+    for (int i = 0; i < fileContents.Length; i++)
     {
+        char character = fileContents[i];
         switch(character)
         {
             case '(':
@@ -58,6 +61,21 @@ if (!string.IsNullOrEmpty(fileContents))
             case '/':
                 tokens.Add("SLASH / null");
                 break;
+            case '=':
+                if (i != fileContents.Length - 1 && fileContents[i + 1] == '=')
+                {
+                    tokens.Add("EQUAL_EQUAL == null");
+                    i += 1;
+                }
+                else
+                {
+                    tokens.Add("EQUAL = null");
+                }
+                break;
+            default:
+                tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
+                lexicalError = true;
+                break;
         }
      }
      tokens.Add("EOF null");
@@ -69,5 +87,17 @@ else
 
 foreach(String token in tokens)
 {
-    Console.WriteLine(token);
+    if (token.Contains("Error: Unexpected Character"))
+    {
+        Console.Error.WriteLine(token);
+    }
+    else
+    {
+        Console.WriteLine(token);
+    }
 }
+if (lexicalError)
+{
+    Environment.Exit(65);
+}
+Environment.Exit(0);
