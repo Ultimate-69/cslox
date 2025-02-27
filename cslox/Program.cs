@@ -62,7 +62,7 @@ if (!string.IsNullOrEmpty(fileContents))
                 tokens.Add("SLASH / null");
                 break;
             case '=':
-                if (i != fileContents.Length - 1 && fileContents[i + 1] == '=')
+                if (GetNextCharEquality(fileContents, '=', i))
                 {
                     tokens.Add("EQUAL_EQUAL == null");
                     i += 1;
@@ -70,6 +70,17 @@ if (!string.IsNullOrEmpty(fileContents))
                 else
                 {
                     tokens.Add("EQUAL = null");
+                }
+                break;
+            case '!':
+                if (GetNextCharEquality(fileContents, '=', i))
+                {
+                    tokens.Add("BANG_EQUAL != null");
+                    i += 1;
+                }
+                else
+                {
+                    tokens.Add("BANG ! null");
                 }
                 break;
             default:
@@ -101,3 +112,8 @@ if (lexicalError)
     Environment.Exit(65);
 }
 Environment.Exit(0);
+
+bool GetNextCharEquality(String text, char character, int iterator)
+{
+    return iterator != text.Length -1 && text[iterator + 1] == character;
+}
