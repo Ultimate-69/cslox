@@ -122,6 +122,8 @@ if (!string.IsNullOrEmpty(fileContents))
                     tokens.Add("LESS < null");
                 }
                 break;
+            case ' ':
+                break;
             default:
                 tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
                 lexicalError = true;
