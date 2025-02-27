@@ -18,8 +18,6 @@ if (command != "tokenize")
 
 string fileContents = File.ReadAllText(filename);
 
-Console.Error.WriteLine("Logs from your program will appear here!");
-
 if (!string.IsNullOrEmpty(fileContents))
 {
      foreach (char character in fileContents)
@@ -31,6 +29,14 @@ if (!string.IsNullOrEmpty(fileContents))
         else if (character == ')')
         {
             Console.WriteLine("RIGHT_PAREN ) null");
+        }
+        else if (character == '{')
+        {
+            Console.WriteLine("LEFT_BRACE { null");
+        }
+        else if (character == '}')
+        {
+            Console.WriteLine("RIGHT_BRACE } null");
         }
      }
      Console.WriteLine("EOF null");
