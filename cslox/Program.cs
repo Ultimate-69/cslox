@@ -22,21 +22,20 @@ if (!string.IsNullOrEmpty(fileContents))
 {
      foreach (char character in fileContents)
      {
-        if (character == '(')
+        switch(character)
         {
-            Console.WriteLine("LEFT_PAREN ( null");
-        }
-        else if (character == ')')
-        {
-            Console.WriteLine("RIGHT_PAREN ) null");
-        }
-        else if (character == '{')
-        {
-            Console.WriteLine("LEFT_BRACE { null");
-        }
-        else if (character == '}')
-        {
-            Console.WriteLine("RIGHT_BRACE } null");
+            case '(':
+                Console.WriteLine("LEFT_PAREN ( null");
+                break;
+            case ')':
+                Console.WriteLine("RIGHT_PAREN )  null");
+                break;
+            case '{':
+                Console.WriteLine("LEFT_BRACE { null");
+                break;
+            case '}':
+                Console.WriteLine("RIGHT_BRACE } null");
+                break;
         }
      }
      Console.WriteLine("EOF null");
