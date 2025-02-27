@@ -83,6 +83,28 @@ if (!string.IsNullOrEmpty(fileContents))
                     tokens.Add("BANG ! null");
                 }
                 break;
+            case '>':
+                if (GetNextCharEquality(fileContents, '=', i))
+                {
+                    tokens.Add("GREATER_EQUAL >= null");
+                    i += 1;
+                }
+                else
+                {
+                    tokens.Add("GREATER > null");
+                }
+                break;
+            case '<':
+                if (GetNextCharEquality(fileContents, '=', i))
+                {
+                    tokens.Add("LESS_EQUAL <= null");
+                    i += 1;
+                }
+                else
+                {
+                    tokens.Add("LESS < null");
+                }
+                break;
             default:
                 tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
                 lexicalError = true;
