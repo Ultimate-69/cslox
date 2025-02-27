@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch .NET App",
+        "type": "coreclr",
+        "request": "launch",
+        "program": "${workspaceFolder}/cslox/bin/Debug/net8.0/cslox.dll",
+        "args": ["-arg1", "-arg2"],
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      }
+    ]
+  }
+  
