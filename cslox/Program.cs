@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 if (args.Length < 2)
 {
@@ -59,7 +60,23 @@ if (!string.IsNullOrEmpty(fileContents))
                 tokens.Add("SEMICOLON ; null");
                 break;
             case '/':
-                tokens.Add("SLASH / null");
+                if (GetNextCharEquality(fileContents, '/', i))
+                {
+                    int newlineIndex = fileContents.IndexOf('\n', i);
+                    if (newlineIndex == -1)
+                    {
+                        // Not found
+                        fileContents = fileContents.Substring(0, i);
+                    }
+                    else
+                    {
+                        fileContents = fileContents.Substring(0, i) + fileContents.Substring(newlineIndex);
+                    }
+                }
+                else
+                {
+                    tokens.Add("SLASH / null");
+                }
                 break;
             case '=':
                 if (GetNextCharEquality(fileContents, '=', i))
