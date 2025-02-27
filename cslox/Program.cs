@@ -122,7 +122,12 @@ if (!string.IsNullOrEmpty(fileContents))
                     tokens.Add("LESS < null");
                 }
                 break;
+            case '\t':
+            case '\r':
             case ' ':
+                break;
+            case '\n':
+                line += 1;
                 break;
             default:
                 tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
