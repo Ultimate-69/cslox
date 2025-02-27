@@ -87,7 +87,7 @@ else
 
 foreach(String token in tokens)
 {
-    if (token.Contains("Error: Unexpected Character"))
+    if (token.Contains("Error"))
     {
         Console.Error.WriteLine(token);
     }
