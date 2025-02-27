@@ -6,7 +6,7 @@
         "type": "coreclr",
         "request": "launch",
         "program": "${workspaceFolder}/cslox/bin/Debug/net8.0/cslox.dll",
-        "args": ["-arg1", "-arg2"],
+        "args": ["tokenize", "cslox/text.lox"],
         "cwd": "${workspaceFolder}",
         "console": "integratedTerminal",
         "stopAtEntry": false
