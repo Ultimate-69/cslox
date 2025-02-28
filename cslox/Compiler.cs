@@ -160,15 +160,12 @@ if (!String.IsNullOrEmpty(fileContents))
                 string convertedChar = "";
                 convertedChar += character;
                 // Identifiers
-                if (character == 'f')
+                string identifier = GetIdentifier(fileContents, character, i);
+                if (identifier != "")
                 {
-                    if (GetNextCharEquality(fileContents, 'o', i))
-                    {
-                        if (GetNextCharEquality(fileContents, 'o', i))
-                        {
-
-                        }
-                    }
+                    i += identifier.Length - 1;
+                    tokens.Add($"IDENTIFIER {identifier} null");
+                    break;
                 }
                 // Number Literals
                 int convertedString;
@@ -195,13 +192,11 @@ if (!String.IsNullOrEmpty(fileContents))
                         representedDouble = String.Format("{0:0.0}", convertedStringDouble);
                         tokens.Add($"NUMBER {convertedString} {representedDouble}");
                     }
+                    break;
                 }
-                else
-                {
-                    // Not an identified token
-                    tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
-                    lexicalError = true;
-                }
+                // Not an identified token
+                tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
+                lexicalError = true;
                 break;
         }
      }
@@ -236,3 +231,29 @@ bool GetNextCharEquality(string text, char character, int iterator)
     return iterator != text.Length -1 && text[iterator + 1] == character;
 }
 
+string GetIdentifier(string text, char character, int iterator)
+{
+    string finalString = "";
+    foreach (string identifier in identifiers)
+    {
+        if (identifier[0] == character)
+        {
+            int identifierLength = identifier.Length;
+            int identifierIndex = 0;
+            for (int j = iterator; j < iterator + identifierLength; j++)
+            {
+                if (fileContents[j] == identifier[identifierIndex])
+                {
+                    identifierIndex += 1;
+                    finalString += fileContents[j];
+                }
+                else
+                {
+                    finalString = "";
+                    continue;
+                }
+            }
+        }
+    }
+    return finalString;
+}
