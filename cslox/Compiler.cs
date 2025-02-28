@@ -235,28 +235,39 @@ bool GetNextCharEquality(string text, char character, int iterator)
 
 string[] GetKeyword(string text, char character, int iterator)
 {
-    string finalString = "";
     foreach (string keyword in keywords)
     {
         if (keyword[0] == character)
         {
-            int identifierLength = keyword.Length;
-            int identifierIndex = 0;
-            for (int j = iterator; j < iterator + identifierLength; j++)
+            int keywordLength = keyword.Length;
+            
+            // Check bounds to prevent out of range exception
+            if (iterator + keywordLength <= text.Length)
             {
-                if (fileContents[j] == keyword[identifierIndex])
+                bool isMatch = true;
+                string finalString = "";
+                
+                for (int j = 0; j < keywordLength; j++)
                 {
-                    identifierIndex += 1;
-                    finalString += fileContents[j];
+                    if (text[iterator + j] == keyword[j])
+                    {
+                        finalString += keyword[j];
+                    }
+                    else
+                    {
+                        isMatch = false;
+                        break;
+                    }
                 }
-                else
+                
+                if (isMatch)
                 {
-                    finalString = "";
-                    continue;
+                    string keywordReturn = finalString.ToUpper();
+                    return new string[] {finalString, keywordReturn};
                 }
             }
         }
     }
-    string keywordReturn = finalString.ToUpper();
-    return [finalString, keywordReturn];
+    
+    return new string[] {"", ""};
 }
