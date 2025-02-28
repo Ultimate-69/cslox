@@ -129,6 +129,30 @@ if (!string.IsNullOrEmpty(fileContents))
             case '\n':
                 line += 1;
                 break;
+            case '"':
+                int terminatorIndex = fileContents.IndexOf('"', i + 1);
+                if (terminatorIndex == -1)
+                {
+                    // Not found
+                    tokens.Add($"[line {line}] Error: Unterminated String");
+                    int newlineIndex = fileContents.IndexOf('\n', i);
+                    if (newlineIndex != -1)
+                    {
+                        i = newlineIndex;
+                    }
+                    else
+                    {
+                        i = fileContents.Length - 1;
+                    }
+                }
+                else
+                {
+                    //terminatorIndex += 1;
+                    String stringContent = fileContents.Substring(i + 1, terminatorIndex - (i + 1));
+                    tokens.Add($"STRING \"{stringContent}\" {stringContent}");
+                    i = terminatorIndex;
+                }
+                break;
             default:
                 tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
                 lexicalError = true;
