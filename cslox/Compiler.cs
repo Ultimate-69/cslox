@@ -18,6 +18,7 @@ if (command != "tokenize")
     Environment.Exit(1);
 }
 
+// Essentials needed for the interpeter to function
 string fileContents = File.ReadAllText(filename);
 List<String> tokens = new List<String>();
 String[] identifiers = {"foo", "bar", "_hello"};
@@ -127,6 +128,7 @@ if (!string.IsNullOrEmpty(fileContents))
             case '\t':
             case '\r':
             case ' ':
+                // All of these are whitespaces
                 break;
             case '\n':
                 line += 1;
@@ -149,7 +151,6 @@ if (!string.IsNullOrEmpty(fileContents))
                 }
                 else
                 {
-                    //terminatorIndex += 1;
                     String stringContent = fileContents.Substring(i + 1, terminatorIndex - (i + 1));
                     tokens.Add($"STRING \"{stringContent}\" {stringContent}");
                     i = terminatorIndex;
@@ -159,6 +160,7 @@ if (!string.IsNullOrEmpty(fileContents))
                 String convertedChar = "";
                 convertedChar += character;
                 int convertedString;
+                // Number Literals
                 if (int.TryParse(convertedChar, out convertedString))
                 {
                     for (int j = i + 1; j < fileContents.Length; j++)
@@ -185,17 +187,19 @@ if (!string.IsNullOrEmpty(fileContents))
                 }
                 else
                 {
+                    // Not an identified token
                     tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
                     lexicalError = true;
                 }
                 break;
         }
      }
-     tokens.Add("EOF null");
+     // End of file
+     tokens.Add("EOF  null");
 }
 else
 {
-    tokens.Add("EOF  null"); // Placeholder, remove this line when implementing the scanner
+  tokens.Add("EOF  null"); // Placeholder, remove this line when implementing the scanner
 }
 
 foreach(String token in tokens)
@@ -217,5 +221,6 @@ Environment.Exit(0);
 
 bool GetNextCharEquality(String text, char character, int iterator)
 {
+    // Check if the next character in the string is equal to the character passed in
     return iterator != text.Length -1 && text[iterator + 1] == character;
 }
