@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Principal;
 using System.Text;
 
 if (args.Length < 2)
@@ -154,8 +155,38 @@ if (!string.IsNullOrEmpty(fileContents))
                 }
                 break;
             default:
-                tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
-                lexicalError = true;
+                String convertedChar = "";
+                convertedChar += character;
+                int convertedString;
+                if (int.TryParse(convertedChar, out convertedString))
+                {
+                    for (int j = i + 1; j < fileContents.Length; j++)
+                    {
+                        if (char.IsNumber(fileContents[j]) || fileContents[j] == '.')
+                        {
+                            convertedChar += fileContents[j];
+                        }
+                        i = j;
+                    }
+                    bool isInt = int.TryParse(convertedChar, out convertedString);
+                    double convertedStringDouble = double.Parse(convertedChar);
+                    string representedDouble = convertedChar;
+
+                    if (!isInt)
+                    {
+                        tokens.Add($"NUMBER {convertedStringDouble} {representedDouble}");
+                    }
+                    else
+                    {
+                        representedDouble = String.Format("{0:0.0}", convertedStringDouble);
+                        tokens.Add($"NUMBER {convertedString} {representedDouble}");
+                    }
+                }
+                else
+                {
+                    tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
+                    lexicalError = true;
+                }
                 break;
         }
      }
