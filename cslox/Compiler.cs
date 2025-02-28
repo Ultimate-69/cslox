@@ -20,6 +20,7 @@ if (command != "tokenize")
 
 string fileContents = File.ReadAllText(filename);
 List<String> tokens = new List<String>();
+String[] identifiers = {"foo", "bar", "_hello"};
 int line = 1;
 bool lexicalError = false;
 
