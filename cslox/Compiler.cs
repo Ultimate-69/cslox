@@ -23,6 +23,7 @@ string fileContents = File.ReadAllText(filename);
 List<string> tokens = new List<string>();
 string[] keywords = {"and", "class", "else", "false", "for", "fun", "if", "nil", "or", "print", "return",
 "super", "this", "true", "var", "while"};
+char[] validTokens = {'(', ')', '{', '}', '*', '.', ',', ';', '+', '-', '/'};
 int line = 1;
 bool lexicalError = false;
 
@@ -160,7 +161,8 @@ if (!String.IsNullOrEmpty(fileContents))
             default:
                 string convertedChar = "";
                 convertedChar += character;
-                // Identifiers
+
+                // Keywords
                 string keywordString = GetKeyword(fileContents, character, i)[0];
                 string keyword = GetKeyword(fileContents, character, i)[1];
                 if (keywordString != "")
@@ -169,6 +171,16 @@ if (!String.IsNullOrEmpty(fileContents))
                     tokens.Add($"{keyword} {keywordString} null");
                     break;
                 }
+
+                // Identifier
+                string identifier = GetIdentifier(fileContents, character, i);
+                if (identifier != "")
+                {
+                    tokens.Add($"IDENTIFIER {identifier} null");
+                    i += identifier.Length - 1;
+                    break;
+                }
+
                 // Number Literals
                 int convertedString;
                 if (int.TryParse(convertedChar, out convertedString))
@@ -196,6 +208,7 @@ if (!String.IsNullOrEmpty(fileContents))
                     }
                     break;
                 }
+                
                 // Not an identified token
                 tokens.Add($"[line {line}] Error: Unexpected Character: {character}");
                 lexicalError = true;
@@ -231,6 +244,33 @@ bool GetNextCharEquality(string text, char character, int iterator)
 {
     // Check if the next character in the string is equal to the character passed in
     return iterator != text.Length -1 && text[iterator + 1] == character;
+}
+
+string GetIdentifier(string text, char character, int iterator)
+{
+    string finalString = "";
+    if (character == '_' || char.IsLetter(character))
+    {
+        for (int i = iterator; i < text.Length; i++)
+        {
+            if (text[i] != ' ' && text[i] != ';')
+            {
+                for (int j = 0; j < validTokens.Length; j++)
+                {
+                    if (text[i] == validTokens[j])
+                    {
+                        return finalString;
+                    }
+                }
+                finalString += text[i];
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    return finalString;
 }
 
 string[] GetKeyword(string text, char character, int iterator)
