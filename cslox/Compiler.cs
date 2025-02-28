@@ -21,7 +21,8 @@ if (command != "tokenize")
 // Essentials needed for the interpeter to function
 string fileContents = File.ReadAllText(filename);
 List<string> tokens = new List<string>();
-string[] identifiers = {"foo", "bar", "_hello"};
+string[] keywords = {"and", "class", "else", "false", "for", "fun", "if", "nil", "or", "print", "return",
+"super", "this", "true", "var", "while"};
 int line = 1;
 bool lexicalError = false;
 
@@ -160,11 +161,12 @@ if (!String.IsNullOrEmpty(fileContents))
                 string convertedChar = "";
                 convertedChar += character;
                 // Identifiers
-                string identifier = GetIdentifier(fileContents, character, i);
-                if (identifier != "")
+                string keywordString = GetKeyword(fileContents, character, i)[0];
+                string keyword = GetKeyword(fileContents, character, i)[1];
+                if (keywordString != "")
                 {
-                    i += identifier.Length - 1;
-                    tokens.Add($"IDENTIFIER {identifier} null");
+                    i += keywordString.Length - 1;
+                    tokens.Add($"{keyword} {keywordString} null");
                     break;
                 }
                 // Number Literals
@@ -231,18 +233,18 @@ bool GetNextCharEquality(string text, char character, int iterator)
     return iterator != text.Length -1 && text[iterator + 1] == character;
 }
 
-string GetIdentifier(string text, char character, int iterator)
+string[] GetKeyword(string text, char character, int iterator)
 {
     string finalString = "";
-    foreach (string identifier in identifiers)
+    foreach (string keyword in keywords)
     {
-        if (identifier[0] == character)
+        if (keyword[0] == character)
         {
-            int identifierLength = identifier.Length;
+            int identifierLength = keyword.Length;
             int identifierIndex = 0;
             for (int j = iterator; j < iterator + identifierLength; j++)
             {
-                if (fileContents[j] == identifier[identifierIndex])
+                if (fileContents[j] == keyword[identifierIndex])
                 {
                     identifierIndex += 1;
                     finalString += fileContents[j];
@@ -255,5 +257,6 @@ string GetIdentifier(string text, char character, int iterator)
             }
         }
     }
-    return finalString;
+    string keywordReturn = finalString.ToUpper();
+    return [finalString, keywordReturn];
 }
