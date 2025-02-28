@@ -156,7 +156,7 @@ public class Scanner
                             break;
                         }
 
-                        // Identifier
+                        // Identifiers
                         string identifier = GetIdentifier(fileContents, character, i);
                         if (identifier != "")
                         {

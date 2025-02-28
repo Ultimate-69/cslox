@@ -1,1 +1,7 @@
-foo bar() class while
+class Main()
+{
+    if ("condition")
+    {
+        print("Something!");
+    }
+}
