@@ -20,12 +20,12 @@ if (command != "tokenize")
 
 // Essentials needed for the interpeter to function
 string fileContents = File.ReadAllText(filename);
-List<String> tokens = new List<String>();
-String[] identifiers = {"foo", "bar", "_hello"};
+List<string> tokens = new List<string>();
+string[] identifiers = {"foo", "bar", "_hello"};
 int line = 1;
 bool lexicalError = false;
 
-if (!string.IsNullOrEmpty(fileContents))
+if (!String.IsNullOrEmpty(fileContents))
 {
     for (int i = 0; i < fileContents.Length; i++)
     {
@@ -151,16 +151,27 @@ if (!string.IsNullOrEmpty(fileContents))
                 }
                 else
                 {
-                    String stringContent = fileContents.Substring(i + 1, terminatorIndex - (i + 1));
+                    string stringContent = fileContents.Substring(i + 1, terminatorIndex - (i + 1));
                     tokens.Add($"STRING \"{stringContent}\" {stringContent}");
                     i = terminatorIndex;
                 }
                 break;
             default:
-                String convertedChar = "";
+                string convertedChar = "";
                 convertedChar += character;
-                int convertedString;
+                // Identifiers
+                if (character == 'f')
+                {
+                    if (GetNextCharEquality(fileContents, 'o', i))
+                    {
+                        if (GetNextCharEquality(fileContents, 'o', i))
+                        {
+
+                        }
+                    }
+                }
                 // Number Literals
+                int convertedString;
                 if (int.TryParse(convertedChar, out convertedString))
                 {
                     for (int j = i + 1; j < fileContents.Length; j++)
@@ -202,7 +213,7 @@ else
   tokens.Add("EOF  null"); // Placeholder, remove this line when implementing the scanner
 }
 
-foreach(String token in tokens)
+foreach(string token in tokens)
 {
     if (token.Contains("Error"))
     {
@@ -219,8 +230,9 @@ if (lexicalError)
 }
 Environment.Exit(0);
 
-bool GetNextCharEquality(String text, char character, int iterator)
+bool GetNextCharEquality(string text, char character, int iterator)
 {
     // Check if the next character in the string is equal to the character passed in
     return iterator != text.Length -1 && text[iterator + 1] == character;
 }
+
