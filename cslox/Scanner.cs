@@ -175,7 +175,12 @@ public class Scanner
                                 {
                                     convertedChar += fileContents[j];
                                 }
-                                i = j;
+                                else
+                                {
+                                    i = j - 1;
+                                    break;
+                                }
+                                //i = j;
                             }
                             bool isInt = int.TryParse(convertedChar, out convertedString);
                             double convertedStringDouble = double.Parse(convertedChar);
@@ -204,7 +209,7 @@ public class Scanner
         }
         else
         {
-        tokens.Add("EOF  null"); // Placeholder, remove this line when implementing the scanner
+            tokens.Add("EOF  null"); // Placeholder, remove this line when implementing the scanner
         }
 
         return (tokens, lexicalError);

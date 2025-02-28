@@ -1,7 +1,1 @@
-class Main()
-{
-    if ("condition")
-    {
-        print("Something!");
-    }
-}
+2 + 3 + 5 * 6
